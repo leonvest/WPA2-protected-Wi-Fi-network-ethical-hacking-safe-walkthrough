@@ -13,5 +13,3 @@ Pseudocode (conceptual, not copy-paste scanning):
 - Choose 1–3 candidate hosts
 - Manually test a service with a strict timeout
 
-Report wording example:
-> “Instead of scanning the full /24 network, a limited set of candidates was tested.”
