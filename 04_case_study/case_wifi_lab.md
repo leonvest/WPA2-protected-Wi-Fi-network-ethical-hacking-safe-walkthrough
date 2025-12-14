@@ -14,7 +14,22 @@
 - DHCP provided valid network configuration
 - Service discovery was targeted and minimal
 
-## Defensive considerations
-- Restrict allowed sudo commands carefully
-- Monitor association and DHCP activity
-- Segment Wi-Fi networks and limit exposed services
+
+
+
+# Segmentation Strategy (Defensive)
+
+Goal: even if an attacker connects to Wi-Fi, they should NOT reach internal services.
+
+Principles:
+- Treat Wi-Fi clients like “untrusted endpoints”
+- Enforce explicit allow-lists
+- Separate:
+  - guest Wi-Fi
+  - employee Wi-Fi
+  - admin/management networks
+  - server networks
+
+Validation (defensive):
+- Periodically test that Wi-Fi ranges cannot reach internal admin portals
+- Monitor firewall rule drift and document changes
