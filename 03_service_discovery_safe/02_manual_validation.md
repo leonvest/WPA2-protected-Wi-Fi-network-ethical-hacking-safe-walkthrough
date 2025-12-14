@@ -1,15 +1,16 @@
-# 6) Manual service validation
+# Logging & Alerting Recommendations
 
-Goal:
-- Confirm that a host actually provides a service
-- Document evidence in a controlled way
+## Wireless controller / AP
+- Log associations and deauth events
+- Alert on first-time devices connecting to sensitive SSIDs
+- Alert on repeated failed auth attempts per device
 
-Good evidence includes:
-- HTTP status code
-- Response headers
-- Page title or visible content
+## DHCP/DNS
+- Keep lease logs
+- Alert on unusual lease churn
+- Monitor DNS queries from Wi-Fi ranges for internal admin hostnames
 
-We intentionally do not include flag-extraction patterns.
-
-Suggested report wording:
-> “The web service responded successfully, and the flag was verified within the page content.”
+## Web / reverse proxy
+- Log source networks and user agents
+- Alert on access to internal-only services from Wi-Fi segments
+- Add rate limits and authentication where appropriate
