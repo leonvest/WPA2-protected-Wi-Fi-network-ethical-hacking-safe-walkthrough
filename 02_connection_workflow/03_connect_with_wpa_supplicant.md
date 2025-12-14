@@ -1,17 +1,24 @@
-# 3) Connect using wpa_supplicant (sudoers constraints)
+# Case Study (Sanitized): WPA2 Wi-Fi Access → Internal Web Service
 
-In some labs, sudoers rules:
-- allow execution of a command
-- but restrict certain flags (e.g., daemon mode)
+## Summary
+In a lab environment:
+- A WPA2-protected SSID was identified
+- Successful association and handshake granted network access
+- The client obtained valid IP configuration
+- An internal web service was reachable from the Wi-Fi network
+- The web service exposed sensitive content in its response
 
-Learning point:
-- A process can be run in the background using the shell (`&`)
-  without relying on a restricted flag.
+## What made the scenario vulnerable
+- Internal service exposure to the Wi-Fi segment
+- Lack of strong authentication on the service (or weak access controls)
+- Insufficient segmentation between “Wi-Fi clients” and “internal services”
 
-Indicators of success:
-- “Associated with …”
-- “Key negotiation completed”
-- “CTRL-EVENT-CONNECTED”
+## Evidence an analyst would collect
+- SSID and security type (WPA2/RSN)
+- Proof of connection (handshake success + link status)
+- Proof of IP configuration (address + gateway)
+- Proof of reachable service (response status, headers, screenshot)
 
-Report wording example:
-> “wpa_supplicant confirmed successful association and WPA key negotiation.”
+## Defensive takeaway
+Connecting to Wi-Fi should not grant broad reachability to internal services.
+Treat Wi-Fi as an untrusted network zone by default.
