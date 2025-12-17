@@ -29,3 +29,8 @@ All examples, explanations, and pseudocode are designed to improve understanding
 The authors of this repository do not encourage or condone unauthorized access, misuse of systems, or violation of laws, policies, or terms of service.
 
 The authors assume no responsibility or liability for how the information in this repository is used. Any actions taken based on this material are the sole responsibility of the user.
+
+
+## Maintainers
+- [@KaliThermal](https://github.com/KaliThermal)
+- [@leonvest](https://github.com/leonvest)
